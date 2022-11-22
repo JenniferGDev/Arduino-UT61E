@@ -1,6 +1,7 @@
-#include <arduino.h>
 #ifndef UT61E_HEADER_FILE
 #define UT61E_HEADER_FILE
+
+#include <arduino.h>
 
 #define UT61E_SUCCESS                   1
 #define UT61E_ERROR_TIMEOUT             -1
