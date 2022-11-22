@@ -1,3 +1,5 @@
+// Example code for reading resistance measurement from meter
+
 #include "UT61E.h"
 #define PIN_DTR 32
 UT61E ut61e = UT61E(&Serial2, PIN_DTR);
