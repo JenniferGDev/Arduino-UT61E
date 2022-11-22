@@ -8,7 +8,7 @@
 #define UT61E_ERROR_READING_PACKET      -2
 #define UT61E_ERROR_INVALID_MODE        -3 
 
-struct Packet {
+struct UT61E_Packet {
     byte range;
     byte digit1;
     byte digit2;
@@ -33,7 +33,7 @@ public:
 private:
   HardwareSerial* _Serial;
   int _dtrPin;
-  struct Packet _packet;
+  struct UT61E_Packet _packet;
   float _resistance;
   bool readPacket(void);
   void massagePacket(void);
