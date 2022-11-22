@@ -23,14 +23,14 @@ bool UT61E::readPacket(void) {
   _Serial->flush();                                                 // flush the input buffer
 
   byte size = _Serial->readBytesUntil(10, (char *)&_packet, 14);    // read until LF, i.e. end of packet
+  _Serial->read();                                                  // flush the LF
   if (size == 13) {                                                 // packet size is 14 including the LF
-    _Serial->read();                                                // flush the LF
     return true;
   } else {
     // retry now that the incomplete partial packet has been read to end of packet
     size = _Serial->readBytesUntil(10, (char *)&_packet, 14);       // read until LF, i.e. end of packet
+    _Serial->read();                                                // flush the LF
     if (size == 13) {                                               // packet size is 14 including the LF
-      _Serial->read();                                              // flush the LF
       return true;
     } else {
       return false;
