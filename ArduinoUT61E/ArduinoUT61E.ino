@@ -1,4 +1,6 @@
 // Example code for reading resistance measurement from meter
+// Using the Arduino Mini Mega 2560, which has four serial ports.
+// Pins 16 & 17 on the Mega are Serial2.
 
 #include "UT61E.h"
 #define PIN_DTR 32
