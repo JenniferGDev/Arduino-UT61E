@@ -39,6 +39,7 @@ private:
   float _resistance;
   bool readPacket(void);
   void massagePacket(void);
+  long lpow(byte base, byte exponent);
 };
 
 #endif
