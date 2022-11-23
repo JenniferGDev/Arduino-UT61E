@@ -85,7 +85,7 @@ int UT61E::measureResistance(void) {
       } else if (_packet.range == 1) {
         _resistance = ((float) ulResistance) / 10.0;
       } else {
-        _resistance = (float) (ulResistance * lpow(10, _packet.range - 2));
+        _resistance = (float) (ulResistance * this->lpow(10, _packet.range - 2));
       }
       
       return UT61E_SUCCESS;
