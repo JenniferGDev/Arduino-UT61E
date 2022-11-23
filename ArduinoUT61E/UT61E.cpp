@@ -77,7 +77,7 @@ int UT61E::measureResistance(void) {
         return UT61E_ERROR_INVALID_MODE;
       }
       
-      // do tha maths
+      // do the maths
       unsigned long ulResistance = (10000 * _packet.digit1) + (1000 * _packet.digit2)
                                     + (100 * _packet.digit3) + (10 * _packet.digit4) + _packet.digit5;
       if (_packet.range == 0) {
