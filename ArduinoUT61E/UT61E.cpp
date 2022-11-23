@@ -76,24 +76,18 @@ int UT61E::measureResistance(void) {
       if (_packet.mode !=  3) {             // Mode 3 = Resistance Measurement
         return UT61E_ERROR_INVALID_MODE;
       }
-
-      // do the maths
+      
+      // do tha maths
+      unsigned long ulResistance = (10000 * _packet.digit1) + (1000 * _packet.digit2)
+                                    + (100 * _packet.digit3) + (10 * _packet.digit4) + _packet.digit5;
       if (_packet.range == 0) {
-        // floating point math
-        _resistance = (100.0 * _packet.digit1) + (10.0 * _packet.digit2) + (1.0 * _packet.digit3)
-                + (0.1 * _packet.digit4) + (0.01 * _packet.digit5);
-      } else if (_packet.range == 1) { 
-        // floating point math
-        _resistance = (1000.0 * _packet.digit1) + (100.0 * _packet.digit2) + (10.0 * _packet.digit3)
-                + (1.0 * _packet.digit4) + (0.1 * _packet.digit5);
+        _resistance = ((float) ulResistance) / 100.0;
+      } else if (_packet.range == 1) {
+        _resistance = ((float) ulResistance) / 10.0;
       } else {
-        // long integer math - convert to floating point at end (to preserve accuracy)
-        long ulResistance = (10000 * _packet.digit1) + (1000 * _packet.digit2) + (100 * _packet.digit3)
-                + (10 * _packet.digit4) + _packet.digit5;
-                
-        _resistance = (float) (ulResistance * this->lpow(10, _packet.range - 2));
-
+        _resistance = (float) (ulResistance * lpow(10, _packet.range - 2));
       }
+      
       return UT61E_SUCCESS;
     }
   }
