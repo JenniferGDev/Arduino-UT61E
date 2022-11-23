@@ -21,7 +21,10 @@ UT61E::UT61E(HardwareSerial* serialObj, int dtrPin) {
 bool UT61E::readPacket(void) {
   // read the packet -- 3 retries
   for (byte i = 0; i < 4; i++) {
-    _Serial->flush();
+    do {                                    // clear the input buffer                                 
+      _Serial->read();
+    } while (_Serial->available());
+                                            // read the packet
     byte size = _Serial->readBytesUntil(10, (char *)&_packet, 14);
     if (size == 13) {
         return true;
