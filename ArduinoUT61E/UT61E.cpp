@@ -19,23 +19,15 @@ UT61E::UT61E(HardwareSerial* serialObj, int dtrPin) {
 // readPacket()
 /****************************************************************************/
 bool UT61E::readPacket(void) {
-  // read the packet
-  _Serial->flush();                                                 // flush the input buffer
-
-  byte size = _Serial->readBytesUntil(10, (char *)&_packet, 14);    // read until LF, i.e. end of packet
-  _Serial->read();                                                  // flush the LF
-  if (size == 13) {                                                 // packet size is 14 including the LF
-    return true;
-  } else {
-    // retry now that the incomplete partial packet has been read to end of packet
-    size = _Serial->readBytesUntil(10, (char *)&_packet, 14);       // read until LF, i.e. end of packet
-    _Serial->read();                                                // flush the LF
-    if (size == 13) {                                               // packet size is 14 including the LF
-      return true;
-    } else {
-      return false;
+  // read the packet -- 3 retries
+  for (byte i = 0; i < 4; i++) {
+    _Serial->flush();
+    byte size = _Serial->readBytesUntil(10, (char *)&_packet, 14);
+    if (size == 13) {
+        return true;
     }
   }
+  return false;
 }
 
 /****************************************************************************/
