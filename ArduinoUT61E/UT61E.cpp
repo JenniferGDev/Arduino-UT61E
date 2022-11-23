@@ -1,17 +1,23 @@
 #include "UT61E.h"
 
 /****************************************************************************/
-// Constructor
+// Constructors
 /****************************************************************************/
-UT61E::UT61E(HardwareSerial* serialObj, int dtrPin) {
-  _Serial = serialObj;
-  _dtrPin = dtrPin;
-  _Serial->begin(19200, SERIAL_7O1);          // seven bit word length, odd parity, one stop bit.
-  pinMode(_dtrPin, OUTPUT);
-  digitalWrite(_dtrPin, HIGH);                // DTR needs to be high as it powers the adapter
-                                              // RTS needs to be grounded as well to power it
-                                              // RX Line needs inversion (e.g. 74HC14N) before Arduino
+UT61E::UT61E(HardwareSerial* serialObj) {
+  this->setup(serialObj);
+}
 
+UT61E::UT61E(HardwareSerial* serialObj, int dtrPin) {
+  this->setup(serialObj);
+  
+  _dtrPin = dtrPin;                           // DTR needs to be high as it powers the adapter
+  pinMode(_dtrPin, OUTPUT);                   // RTS needs to be grounded as well to power it
+  digitalWrite(_dtrPin, HIGH);                // RX Line needs inversion (e.g. 74HC14N) before Arduino                               
+}
+
+void UT61E::setup(HardwareSerial* serialObj) {
+  _Serial = serialObj;
+  _Serial->begin(19200, SERIAL_7O1);          // seven bit word length, odd parity, one stop bit.
   _resistance = 0.0;
 }
 

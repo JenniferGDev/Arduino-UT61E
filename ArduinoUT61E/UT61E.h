@@ -28,9 +28,11 @@ struct UT61E_Packet {
 class UT61E {
 public:
   UT61E(HardwareSerial* serialObj, int dtrPin);
+  UT61E(HardwareSerial* serialObj);
   int measureResistance(void);
   float getResistance(void);
 private:
+  void setup(HardwareSerial* serialObj);
   HardwareSerial* _Serial;
   int _dtrPin;
   struct UT61E_Packet _packet;
