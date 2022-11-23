@@ -81,7 +81,34 @@ int UT61E::measureResistance(void) {
       _resistance = (100.0 * _packet.digit1) + (10.0 * _packet.digit2) + (1.0 * _packet.digit3)
                 + (0.1 * _packet.digit4) + (0.01 * _packet.digit5);
       if (_packet.range > 0) {
-        _resistance = _resistance * (pow(10.0, _packet.range));
+        //_resistance = _resistance * (pow(10.0, _packet.range));
+
+        // I was using pow() function above, but it was returning a decimal number,
+        // slighty smaller than, for example, 1000000 for 10 to the power of 6.
+        // The following switch fixes it.
+        
+        float multiplier;
+        switch(_packet.range) {
+          case 1:
+            multiplier = 10;
+            break;
+          case 2:
+            multiplier = 100;
+            break;
+          case 3:
+            multiplier = 1000;
+            break;
+          case 4:
+            multiplier = 10000;
+            break;
+          case 5:
+            multiplier = 100000;
+            break;
+          case 6:
+            multiplier = 1000000;
+            break;
+        }                
+        _resistance = _resistance * multiplier;
       }
       return UT61E_SUCCESS;
     }
