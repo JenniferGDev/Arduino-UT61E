@@ -27,9 +27,9 @@ void UT61E::setup(HardwareSerial* serialObj) {
 bool UT61E::readPacket(void) {
   // read the packet -- 3 retries
   for (byte i = 0; i < 4; i++) {
-    do {                                    // clear the input buffer                                 
+    while (_Serial->available()) {          // clear the input buffer                                 
       _Serial->read();
-    } while (_Serial->available());
+    }
                                             // read the packet
     byte size = _Serial->readBytesUntil(10, (char *)&_packet, 14);
     if (size == 13) {
