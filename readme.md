@@ -18,7 +18,6 @@ Added the following public methods for measuring voltage:<br>
   int measureVoltageAC(void);<br>
   float getVolts(void);<br>
   void getVoltsStr(char* buf);<br>
-<br>
 Added the following debugging methods, which can be disabled with #define UT61E_DEBUG defined as 0.<br>
 void printPacket(void);<br>
 void printErrorMessage(HardwareSerial* SerialObj, int error);<br>
