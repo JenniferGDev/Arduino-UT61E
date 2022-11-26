@@ -22,4 +22,3 @@ Added the following debugging methods, which can be disabled with #define UT61E_
 &nbsp;&nbsp;void printPacket(void);<br>
 &nbsp;&nbsp;void printErrorMessage(HardwareSerial* SerialObj, int error);<br>
 
-[img]https://img.favpng.com/14/21/1/rs-232-serial-port-pinout-wiring-diagram-rs-422-png-favpng-BCXsA1Rhjv0iuZz1uXjwJQBEx.jpg[/img]
