@@ -14,10 +14,10 @@ The DTR pin must be set to high (+5V) -- pin 4 on the DB9.  Also RTS pin -- pin 
 
 2022-11-26 UDPATE:<br>
 Added the following public methods for measuring voltage:<br>
-  int measureVoltageDC(void);<br>
-  int measureVoltageAC(void);<br>
-  float getVolts(void);<br>
-  void getVoltsStr(char* buf);<br>
+&nbsp;&nbsp;int measureVoltageDC(void);<br>
+&nbsp;&nbsp;int measureVoltageAC(void);<br>
+&nbsp;&nbsp;float getVolts(void);<br>
+&nbsp;&nbsp;void getVoltsStr(char* buf);<br>
 Added the following debugging methods, which can be disabled with #define UT61E_DEBUG defined as 0.<br>
-void printPacket(void);<br>
-void printErrorMessage(HardwareSerial* SerialObj, int error);<br>
+&nbsp;&nbsp;void printPacket(void);<br>
+&nbsp;&nbsp;void printErrorMessage(HardwareSerial* SerialObj, int error);<br>
