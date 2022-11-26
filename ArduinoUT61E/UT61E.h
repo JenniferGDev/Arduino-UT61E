@@ -3,10 +3,20 @@
 
 #include <arduino.h>
 
-#define UT61E_SUCCESS                   1
-#define UT61E_ERROR_TIMEOUT             -1
-#define UT61E_ERROR_READING_PACKET      -2
-#define UT61E_ERROR_INVALID_MODE        -3 
+#define UT61E_DEBUG 1                  // Set to one to enable printPacket() & printErrorMessage().
+                                       // This option to disable is to preserve precious space on
+                                       // the small arduino devices.
+
+#define UT61E_AC 1
+#define UT61E_DC 2  
+
+#define UT61E_SUCCESS                  1
+#define UT61E_ERROR_TIMEOUT           -1
+#define UT61E_ERROR_READING_PACKET    -2
+#define UT61E_ERROR_INVALID_MODE      -3
+#define UT61E_ERROR_VOLTAGE_NOT_DC    -4
+#define UT61E_ERROR_VOLTAGE_NOT_AC    -5
+#define UT61E_ERROR_OVERLOAD          -6
 
 struct UT61E_Packet {
     byte range;
@@ -31,14 +41,24 @@ public:
   UT61E(HardwareSerial* serialObj);
   int measureResistance(void);
   float getResistance(void);
+  int measureVoltageDC(void);
+  int measureVoltageAC(void);
+  float getVolts(void);
+  void getVoltsStr(char *buf);
+  int readPacket(void);
+  #if UT61E_DEBUG == 1
+    void printPacket(void);
+    void printErrorMessage(HardwareSerial* SerialObj, int error);
+  #endif
 private:
-  void setup(HardwareSerial* serialObj);
   HardwareSerial* _Serial;
   int _dtrPin;
   struct UT61E_Packet _packet;
   float _resistance;
-  bool readPacket(void);
+  float _volts;
+  void setup(HardwareSerial* serialObj);
   void massagePacket(void);
+  int measureVoltage(byte type);
   long lpow(byte base, byte exponent);
 };
 

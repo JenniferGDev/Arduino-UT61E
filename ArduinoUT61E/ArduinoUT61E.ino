@@ -1,3 +1,4 @@
+
 // Example code for reading resistance measurement from meter
 // Using the Arduino Mini Mega 2560, which has four serial ports.
 // Pins 16 & 17 on the Mega are Serial2.
@@ -13,23 +14,20 @@ void setup() {
 void loop() {
   int error = ut61e.measureResistance();
   if (error != UT61E_SUCCESS) {
-    switch (error) {
-      case UT61E_ERROR_TIMEOUT:
-        Serial.println("TIMEOUT");
-        return;
-      case UT61E_ERROR_READING_PACKET:
-        Serial.println("ERROR READING PACKET");
-        return;
-      case UT61E_ERROR_INVALID_MODE:
-        Serial.println("INVALID METER MODE");
-        return;
-    }
-  }
-  float ohms = ut61e.getResistance();
-  Serial.print("Ohms: " );
-  if (ohms > 220000000) {
-    Serial.println("OL.");
+    #if UT61E_DEBUG == 1
+      ut61e.printErrorMessage(&Serial, error);
+      return;
+    #endif
   } else {
-    Serial.println(ohms);
+    #if UT61E_DEBUG == 1
+      ut61e.printPacket();
+    #endif
+    float ohms = ut61e.getResistance();
+    Serial.print("Ohms: " );
+    if (ohms > 220000000) {
+      Serial.println("OL.");
+    } else {
+      Serial.println(ohms);
+    }
   }
 }
