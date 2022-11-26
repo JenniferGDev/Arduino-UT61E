@@ -21,3 +21,5 @@ Added the following public methods for measuring voltage:<br>
 Added the following debugging methods, which can be disabled with #define UT61E_DEBUG defined as 0.<br>
 &nbsp;&nbsp;void printPacket(void);<br>
 &nbsp;&nbsp;void printErrorMessage(HardwareSerial* SerialObj, int error);<br>
+
+[img]https://img.favpng.com/14/21/1/rs-232-serial-port-pinout-wiring-diagram-rs-422-png-favpng-BCXsA1Rhjv0iuZz1uXjwJQBEx.jpg[/img]
