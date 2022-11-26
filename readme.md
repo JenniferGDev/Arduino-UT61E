@@ -13,7 +13,7 @@ Settings:  19200 baud, 7 word length, odd parity, one stop bit.
 The DTR pin must be set to high (+5V) -- pin 4 on the DB9.  Also RTS pin -- pin 7 on DB9 -- must be tied to ground.  DTR and RTS together provide the power to the optical RS-232 interface.  Pin 5 on the DB9 needs to be tied to ground.  Pin 2 on the DB9 is the RX signal -- again it must be inverted before sending to the Arduino serial RX pin.
 
 2022-11-26 UDPATE:
-Added the following public methods for measuring voltage:
+Added the following public methods for measuring voltage:<br>
   int measureVoltageDC(void);
   int measureVoltageAC(void);
   float getVolts(void);
