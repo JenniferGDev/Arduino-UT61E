@@ -160,6 +160,7 @@ float UT61E::getVolts(void) {
 
 void UT61E::getVoltsStr(char *fifteenByteBuf) {
   dtostrf(_volts, -15, 5, fifteenByteBuf);
+  this->ttrim(fifteenByteBuf);
 }
 
 float UT61E::getMillivolts(void) {
@@ -167,7 +168,8 @@ float UT61E::getMillivolts(void) {
 }
 
 float UT61E::getMillivoltsStr(char *fifteenByteBuf) {
-  dtostrf(_volts * 1000, -15, 5, fifteenByteBuf);
+  dtostrf(_volts * 1000, -15, 2, fifteenByteBuf);
+  this->ttrim(fifteenByteBuf);
 }
 
 /****************************************************************************/
@@ -199,11 +201,14 @@ float UT61E::getAmps(void) {
 }
 
 void UT61E::getAmpsStr(char *fifteenByteBuf) {
-  if (_packet.mode == 13) {     //13 = uA Mode
-    dtostrf(_amps, -15, 8, fifteenByteBuf);
-  } else {
+  if (_packet.mode == 13) {                     //13 = uA Mode
+    dtostrf(_amps, -15, 7, fifteenByteBuf);
+  } else if (_packet.mode == 15) {              //15 = mA Mode
     dtostrf(_amps, -15, 6, fifteenByteBuf);
+  } else {
+    dtostrf(_amps, -15, 3, fifteenByteBuf);
   }
+  this->ttrim(fifteenByteBuf);
 }
 
 float UT61E::getMilliAmps(void) {
@@ -211,7 +216,8 @@ float UT61E::getMilliAmps(void) {
 }
 
 void UT61E::getMilliampsStr(char *fifteenByteBuf) {
-  dtostrf(_amps * 1000, -15, 5, fifteenByteBuf);
+  dtostrf(_amps * 1000, -15, 3, fifteenByteBuf);
+  this->ttrim(fifteenByteBuf);
 }
 
 float UT61E::getMicroAmps(void) {
@@ -219,7 +225,8 @@ float UT61E::getMicroAmps(void) {
 }
 
 void UT61E::getMicroampsStr(char *fifteenByteBuf) {
-  dtostrf(_amps * 1000000, -15, 2, fifteenByteBuf);
+  dtostrf(_amps * 1000000, -15, 1, fifteenByteBuf);
+  this->ttrim(fifteenByteBuf);
 }
 
 /****************************************************************************/
@@ -292,4 +299,13 @@ long UT61E::lpow(byte base, byte exponent) {
       result = result * base;
   }
   return result;
+}
+
+void UT61E::ttrim(char* buf) {
+  size_t size = strlen(buf);
+  for (byte i = 0; i < size; i++) {
+    if (buf[i] == ' ') {
+      buf[i] = 0;
+    }
+  }
 }

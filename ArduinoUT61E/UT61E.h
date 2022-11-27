@@ -74,6 +74,7 @@ private:
   int readPacketCheckMode(byte mode);
   int readPacketCheckModeType(byte mode, byte type);
   long lpow(byte base, byte exponent);
+  void ttrim(char* buf);
 };
 
 #endif
