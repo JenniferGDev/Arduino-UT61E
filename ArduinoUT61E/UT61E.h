@@ -42,14 +42,21 @@ public:
   int readPacket(void);
   int measureResistance(void);
   float getResistance(void);
-  int measureVoltage(byte type);
+  int measureVolts(byte type);
+  int measureMillivolts(byte type);
   float getVolts(void);
   void getVoltsStr(char *buf);
+  float getMillivolts(void);
+  float getMillivoltsStr(char *buf);
   int measureMicroamps(byte type);
   int measureMilliamps(byte type);
   int measureAmps(byte type);
   float getAmps(void);
   void getAmpsStr(char *buf);
+  float getMilliAmps(void);
+  void getMilliampsStr(char *buf);
+  float getMicroAmps(void);
+  void getMicroampsStr(char *buf);
   #if UT61E_DEBUG == 1
     void printPacket(void);
     void printErrorMessage(HardwareSerial* SerialObj, int error);

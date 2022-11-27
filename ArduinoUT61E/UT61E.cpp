@@ -133,10 +133,24 @@ float UT61E::getResistance(void) {
 /****************************************************************************/
 // Voltage Measuring Methods
 /****************************************************************************/
-int UT61E::measureVoltage(byte type) {
+int UT61E::measureVolts(byte type) {
   int error = this->readPacketCheckModeType(11, type);    // 11 = Volts Mode
   if (error !=  UT61E_SUCCESS) { return error; }
-  _volts = this->calculate(4);
+  if ((_packet.voltage_and_autorange_flags & B00000010) != 2) {
+    // meter not set to autorange
+    return UT61E_ERROR_INVALID_MODE;
+  }
+  _volts = this->calculate(4);  
+  return UT61E_SUCCESS;
+}
+int UT61E::measureMillivolts(byte type) {
+  int error = this->readPacketCheckModeType(11, type);    // 11 = Volts Mode
+  if (error !=  UT61E_SUCCESS) { return error; }
+  if ((_packet.voltage_and_autorange_flags & B00000010) == 2) {
+    // meter not set to manual
+    return UT61E_ERROR_INVALID_MODE;
+  }
+  _volts = this->calculate(9);
   return UT61E_SUCCESS;
 }
 
@@ -144,8 +158,16 @@ float UT61E::getVolts(void) {
   return _volts;
 }
 
-void UT61E::getVoltsStr(char *buf) {
-  dtostrf(_volts, 10, 5, buf);
+void UT61E::getVoltsStr(char *fifteenByteBuf) {
+  dtostrf(_volts, 12, -15, fifteenByteBuf);
+}
+
+float UT61E::getMillivolts(void) {
+  return _volts * 1000;
+}
+
+float UT61E::getMillivoltsStr(char *fifteenByteBuf) {
+  dtostrf(_volts * 1000, -15, 5, fifteenByteBuf);
 }
 
 /****************************************************************************/
@@ -154,14 +176,14 @@ void UT61E::getVoltsStr(char *buf) {
 int UT61E::measureMicroamps(byte type) {
   int error = this->readPacketCheckModeType(13, type);      // 13 = uA Mode
   if (error !=  UT61E_SUCCESS) { return error; }
-  _amps = this->calculate(2);
+  _amps = this->calculate(8);
   return UT61E_SUCCESS;
 }
 
 int UT61E::measureMilliamps(byte type) {
   int error = this->readPacketCheckModeType(15, type);      // 15 = mA Mode
   if (error !=  UT61E_SUCCESS) { return error; }
-  _amps = this->calculate(2);
+  _amps = this->calculate(6);
   return UT61E_SUCCESS;
 }
 
@@ -176,8 +198,28 @@ float UT61E::getAmps(void) {
   return _amps;
 }
 
-void UT61E::getAmpsStr(char *buf) {
-  dtostrf(_amps, 10, 5, buf);
+void UT61E::getAmpsStr(char *fifteenByteBuf) {
+  if (_packet.mode == 13) {     //13 = uA Mode
+    dtostrf(_amps, -15, 8, fifteenByteBuf);
+  } else {
+    dtostrf(_amps, -15, 6, fifteenByteBuf);
+  }
+}
+
+float UT61E::getMilliAmps(void) {
+  return _amps * 1000;
+}
+
+void UT61E::getMilliampsStr(char *fifteenByteBuf) {
+  dtostrf(_amps * 1000, -15, 5, fifteenByteBuf);
+}
+
+float UT61E::getMicroAmps(void) {
+  return _amps * 1000000;
+}
+
+void UT61E::getMicroampsStr(char *fifteenByteBuf) {
+  dtostrf(_amps * 1000000, -12, 2, fifteenByteBuf);
 }
 
 /****************************************************************************/
@@ -213,7 +255,7 @@ void UT61E::getAmpsStr(char *buf) {
     Serial.print(_packet.cr);
     Serial.print(" ");
     Serial.print(_packet.lf);
-    Serial.print(" ");
+    Serial.print("| ");
   }
 
   void UT61E::printErrorMessage(HardwareSerial* SerialObj, int error) {
@@ -235,7 +277,7 @@ void UT61E::getAmpsStr(char *buf) {
         return;  
       case UT61E_ERROR_OVERLOAD:
         SerialObj->println("OVERLOAD");
-        return;  
+        return;
     }
   }
 #endif  // if UT61E_DEBUG == 1
