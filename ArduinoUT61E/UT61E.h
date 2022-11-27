@@ -39,13 +39,17 @@ class UT61E {
 public:
   UT61E(HardwareSerial* serialObj, int dtrPin);
   UT61E(HardwareSerial* serialObj);
+  int readPacket(void);
   int measureResistance(void);
   float getResistance(void);
-  int measureVoltageDC(void);
-  int measureVoltageAC(void);
+  int measureVoltage(byte type);
   float getVolts(void);
   void getVoltsStr(char *buf);
-  int readPacket(void);
+  int measureMicroamps(byte type);
+  int measureMilliamps(byte type);
+  int measureAmps(byte type);
+  float getAmps(void);
+  void getAmpsStr(char *buf);
   #if UT61E_DEBUG == 1
     void printPacket(void);
     void printErrorMessage(HardwareSerial* SerialObj, int error);
@@ -56,9 +60,12 @@ private:
   struct UT61E_Packet _packet;
   float _resistance;
   float _volts;
+  float _amps;
   void setup(HardwareSerial* serialObj);
   void massagePacket(void);
-  int measureVoltage(byte type);
+  float calculate(byte magnitude);
+  int readPacketCheckMode(byte mode);
+  int readPacketCheckModeType(byte mode, byte type);
   long lpow(byte base, byte exponent);
 };
 
