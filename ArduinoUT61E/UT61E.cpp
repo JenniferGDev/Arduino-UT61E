@@ -159,7 +159,7 @@ float UT61E::getVolts(void) {
 }
 
 void UT61E::getVoltsStr(char *fifteenByteBuf) {
-  dtostrf(_volts, 12, -15, fifteenByteBuf);
+  dtostrf(_volts, -15, 5, fifteenByteBuf);
 }
 
 float UT61E::getMillivolts(void) {
@@ -219,7 +219,7 @@ float UT61E::getMicroAmps(void) {
 }
 
 void UT61E::getMicroampsStr(char *fifteenByteBuf) {
-  dtostrf(_amps * 1000000, -12, 2, fifteenByteBuf);
+  dtostrf(_amps * 1000000, -15, 2, fifteenByteBuf);
 }
 
 /****************************************************************************/
