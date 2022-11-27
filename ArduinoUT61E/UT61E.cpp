@@ -20,6 +20,7 @@ void UT61E::setup(HardwareSerial* serialObj) {
   _Serial->begin(19200, SERIAL_7O1);        // seven bit word length, odd parity, one stop bit.
   _resistance = 0.0;
   _volts = 0.0;
+  _amps = 0.0;
 }
 
 /****************************************************************************/
