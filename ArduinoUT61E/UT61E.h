@@ -45,18 +45,18 @@ public:
   int measureVolts(byte type);
   int measureMillivolts(byte type);
   float getVolts(void);
-  void getVoltsStr(char *buf);
+  void getVoltsStr(char *fifteenByteBuf);
   float getMillivolts(void);
-  float getMillivoltsStr(char *buf);
+  float getMillivoltsStr(char *fifteenByteBuf);
   int measureMicroamps(byte type);
   int measureMilliamps(byte type);
   int measureAmps(byte type);
   float getAmps(void);
-  void getAmpsStr(char *buf);
+  void getAmpsStr(char *fifteenByteBuf);
   float getMilliAmps(void);
-  void getMilliampsStr(char *buf);
+  void getMilliampsStr(char *fifteenByteBuf);
   float getMicroAmps(void);
-  void getMicroampsStr(char *buf);
+  void getMicroampsStr(char *fifteenByteBuf);
   #if UT61E_DEBUG == 1
     void printPacket(void);
     void printErrorMessage(HardwareSerial* SerialObj, int error);
